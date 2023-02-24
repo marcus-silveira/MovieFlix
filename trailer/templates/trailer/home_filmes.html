@@ -1,0 +1,17 @@
+{% extends 'global/base.html' %}
+
+{% block head %}
+    <title>MovieFlix | Filmes</title>
+{% endblock head %}
+
+{% block content %}
+    <div class="py-20 ml-5">
+        {% for filme in object_list %}
+            <hr>
+            <a href="{% url 'filme:detalhes_filme' filme.pk  %}"><p>{{ filme }}</p></a>
+            <p>{{ filme.descricao }}</p>
+            <img src="{{ filme.thumb.url}}" alt="">
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock content %}

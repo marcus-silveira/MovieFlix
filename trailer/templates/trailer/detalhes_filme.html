@@ -1,0 +1,14 @@
+{% extends 'global/base.html' %}
+
+{% block head %}
+    <title>Trailer | {{ object }}</title>
+{% endblock head %}
+
+
+{% block content %}
+    <div class="py-20 ml-5">
+        <p>{{ object }}</p>
+        <p>{{ object.descricao }}</p>
+        <img src="{{ object.thumb.url }}" alt="Wallpaper do filme">
+    </div>
+{% endblock content %}
