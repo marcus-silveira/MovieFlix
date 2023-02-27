@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Filme
+from .models import Filme, Trailer
 from django.views.generic import TemplateView, DetailView, ListView
 
 
@@ -25,6 +25,8 @@ class DetalhesFilme(DetailView):
         filme = self.get_object()
         filme.visualizacoes += 1
         filme.save()
+        usuario = request.user
+        usuario.filmes_vistos.add(filme)
         return super().get(request, *args, **kwargs)
     
     # Super classe iniciada depois pq queremos editar o método get
@@ -38,3 +40,19 @@ class DetalhesFilme(DetailView):
         context['trailers'] = filme.trailers.all()
         return context
     # Super classe iniciada antes pois queremos manter as configurações padrões e apenas adicionar novos itens
+
+
+class PesquisaFilme(ListView):
+    template_name = 'trailer/pesquisa.html'
+    model = Trailer
+    context_object_name = 'pesquisa'
+    
+    def get_queryset(self):
+        obj_pesquisa = self.request.GET.get('query')
+        if obj_pesquisa:
+            pesquisa = self.model.objects.filter(titulo__icontains=obj_pesquisa)
+            return pesquisa
+        else:
+            return None
+    
+    

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 
 
 LISTA_CATEGORIAS = (
@@ -30,3 +31,7 @@ class Trailer(models.Model):
     video = models.URLField()
     def __str__(self):
         return self.titulo
+    
+    
+class Usuario(AbstractUser):
+    filmes_vistos = models.ManyToManyField('Filme')
