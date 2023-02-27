@@ -25,8 +25,8 @@ class Filme(models.Model):
     
 class Trailer(models.Model):
     filme = models.ForeignKey('Filme', related_name='trailers', on_delete=models.CASCADE)
+    thumb = models.ImageField(upload_to='thumb_trailers', null=True)
     titulo = models.CharField(max_length=100)
     video = models.URLField()
-    
     def __str__(self):
         return self.titulo

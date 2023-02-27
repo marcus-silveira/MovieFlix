@@ -1,14 +1,128 @@
 {% extends 'global/base.html' %}
+{% load static %}
 
 {% block head %}
-    <title>Trailer | {{ object }}</title>
+<title>Trailers | {{ detalhes_filme }}</title>
 {% endblock head %}
 
 
 {% block content %}
-    <div class="py-20 ml-5">
-        <p>{{ object }}</p>
-        <p>{{ object.descricao }}</p>
-        <img src="{{ object.thumb.url }}" alt="Wallpaper do filme">
+<main class='bg-primary_black min-h-screen w-full'>
+    <section
+        class="h-screen bg-black bg-opacity-75 bg-blend-overlay relative bg-no-repeat pb-8 pl-6 flex items-end bg-cover"
+        style="background-image: url('{{detalhes_filme.thumb.url}}');">
+        <div>
+            <h2 class="text-6xl font-semibold text-white my-4">
+                {{ detalhes_filme }}
+            </h2>
+            <p class=" w-11/12 md:w-5/12 font-family: ui-serif text-white my-4">
+                {{ detalhes_filme.descricao }}
+            </p>
+            <div class="flex my-4">
+                <a href="#">
+                    <button class="flex items-center bg-white py-2 px-5 rounded-md" style='color:black;'>
+                        <ion-icon name="play" class="text-2xl"></ion-icon>
+                        <span class="ml-3 font-medium">
+                            Play
+                        </span>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class='bg-stone-900 flex justify-start py-10' style="padding-bottom: 0px;">
+        <div class="p-4 w-6/12 relative ">
+            <div style='margin-top:2rem;margin-bottom:2rem;'>
+                <h2 class="text-gray-200 text-2xl font-medium">
+                    Trailers | {{ detalhes_filme }}
+                </h2>
+                <div class="flex justify-left min-w-full  movie_lis mt-2">
+                    <p class="text-gray-100 text-base">
+                        {{detalhes_filme.descricao}}
+                    </p>
+                </div>
+                <div class="flex justify-left min-w-full  movie_lis mt-2">
+                    <p class="text-gray-100 text-base">
+                        Visualizações: {{detalhes_filme.visualizacoes}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="owl-carousel owl-theme bg-stone-900">
+        {% for trailer in trailers %}
+        <div class="item">
+            <div class="p-2 w-10/12 relative">
+                <h2 class="text-gray-200 text-2xl font-medium text-center">{{trailer.titulo}}</h2>
+                <div class="flex flex-wrap items-center min-w-full movie_lis" style="width: 500px;">
+                    <div class="m-4 bg-blue-500 overflow-hidden flex-shrink-0 rounded-md cursor-pointer h-64 w-96">
+                        <a href="{{trailer.video}}" target="_blank">
+                            <img src="{{ trailer.thumb.url }}" class="object-cover w-full h-full " alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
+
+    <section class='bg-stone-900 flex justify-center py-10' style="padding-bottom: 0px;">
+        <div class="p-4 w-6/12 relative ">
+            <div style='margin-top:2rem;margin-bottom:2rem;'>
+                <h2 class="text-gray-200 text-3xl font-medium text-center">
+                    Filmes que talvez você goste
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="owl-carousel owl-theme bg-stone-900">
+        {% for filme in filmes_relacionados %}
+        {% if forloop.counter < 4 %}
+            <div class="item">
+                <div class="p-2 w-10/12 relative">
+                    <h2 class="text-gray-200 text-2xl font-medium text-center">{{filme.titulo}}</h2>
+                    <div class="flex flex-wrap items-center min-w-full movie_lis" style="width: 500px;">
+                        <div class="m-4 bg-blue-500 overflow-hidden flex-shrink-0 rounded-md cursor-pointer h-64 w-96">
+                            <a href="{% url 'filme:detalhes_filme' filme.pk  %}">
+                                <img src="{{ filme.thumb.url }}" class="object-cover w-full h-full " alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.owl-carousel').owlCarousel({
+          loop:true,
+          margin:10,
+          nav:false,
+          dots:false,
+          autoplay:true,
+          autoplayTimeout:5000,
+          responsive:{
+            0:{
+              items:1
+            },
+            600:{
+              items:3
+            },
+            1000:{
+              items:3
+            }
+          }
+        });
+      });
+</script>
+
+
 {% endblock content %}

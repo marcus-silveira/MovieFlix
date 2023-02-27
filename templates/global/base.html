@@ -1,21 +1,145 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
     {% block head %}
     {% endblock head %}
+
+    <style>
+        .owl-carousel .owl-stage-outer {
+            overflow: visible;
+        }
+
+        .owl-carousel .owl-stage {
+            display: flex;
+            align-items: center;
+        }
+
+        .owl-carousel .owl-item {
+            min-height: 1px;
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+            width: 420px;
+        }
+        $itemGrow: 1.2;
+$duration: 250ms;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: #000;
+}
+
+h1 {
+  font-family: Arial;
+  color: red;
+  text-align: center;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3,100%);
+  overflow:hidden;
+  scroll-behavior: smooth;
+
+  section {
+    width: 100%;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    margin: 20px 0;
     
+    .item {
+      padding: 0 2px;
+      transition: $duration all;
+      
+      &:hover { 
+        margin: 0 40px;
+        transform: scale(1.2);
+      }
+      
+    }
+    
+    a {
+      position: absolute;
+      color: #fff;
+      text-decoration: none;
+      font-size: 6em;
+      background:rgb(0,0,0);
+      width: 80px;
+      padding: 20px;
+      text-align: center;
+      z-index: 1;
+      
+      &:nth-of-type(1) {
+        top:0; bottom:0; left:0;
+        background: linear-gradient(-90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+      }
+      &:nth-of-type(2) {
+        top:0; bottom:0; right: 0;
+        background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+      }
+      
+    }
+    
+  }
+}
+
+// Remove the arrow for Mobile
+@media only screen and (max-width: 600px) {
+  a.arrow__btn {
+    display:none;
+  }
+}
+    </style>
+
 </head>
-<body class="bg-black text-gray-100 font-primary">
+
+<body class="bg-stone-900 text-gray-100 font-primary">
     {% include 'global/navbar.html' %}
+
     {% block content %}
     {% endblock content %}
+    <footer class="py-2 bg-stone-900">
+        <hr>
+        <ul class="flex justify-between items-center">    
+            <li>&copy; 2023</li>
+            <li> Feito com Python (Django)</li>
+            <li>Marcus Silveira</li>
+        </ul>
+    </footer>
+
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        const nav = document.querySelector('nav')
+
+        document.addEventListener("scroll",e=>{
+            
+            if(scrollY>100){
+                if(scrollY>window.innerHeight){
+                nav.classList.add('invisible')
+            }else{
+                nav.classList.add('bg-gray-900')
+                nav.classList.remove('invisible')
+            }
+            }else{
+                nav.classList.remove('bg-gray-900')
+                nav.classList.remove('invisible')
+            }
+        })
+</script>
 </body>
+
 </html>
