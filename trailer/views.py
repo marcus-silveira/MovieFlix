@@ -1,21 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Filme, Trailer
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import TemplateView, DetailView, ListView, RedirectView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class HomePage(TemplateView):
     template_name = 'trailer/homepage.html'
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('filme:home_filmes')
+        else:
+            return super().get(request, *args, **kwargs)
     
-    
-class HomeFilmes(ListView):
+class HomeFilmes(LoginRequiredMixin, ListView):
     template_name = 'trailer/home_filmes.html'
     model = Filme
     context_object_name = 'filmes'
     # object_list -> lista de itens do modelo
     
     
-class DetalhesFilme(DetailView):
+class DetalhesFilme(LoginRequiredMixin, DetailView):
     template_name = 'trailer/detalhes_filme.html'
     model = Filme
     context_object_name = 'detalhes_filme'
@@ -42,7 +47,7 @@ class DetalhesFilme(DetailView):
     # Super classe iniciada antes pois queremos manter as configurações padrões e apenas adicionar novos itens
 
 
-class PesquisaFilme(ListView):
+class PesquisaFilme(LoginRequiredMixin, ListView):
     template_name = 'trailer/pesquisa.html'
     model = Trailer
     context_object_name = 'pesquisa'

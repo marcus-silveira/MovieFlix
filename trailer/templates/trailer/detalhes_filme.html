@@ -51,22 +51,19 @@
         </div>
     </section>
 
-    <div class="owl-carousel owl-theme bg-stone-900">
+    <section class="flex justify-center items-center">
         {% for trailer in trailers %}
-        <div class="item">
-            <div class="p-2 w-10/12 relative">
-                <h2 class="text-gray-200 text-2xl font-medium text-center">{{trailer.titulo}}</h2>
-                <div class="flex flex-wrap items-center min-w-full movie_lis" style="width: 500px;">
-                    <div class="m-4 bg-blue-500 overflow-hidden flex-shrink-0 rounded-md cursor-pointer h-64 w-96">
-                        <a href="{{trailer.video}}" target="_blank">
-                            <img src="{{ trailer.thumb.url }}" class="object-cover w-full h-full " alt="">
-                        </a>
-                    </div>
-                </div>
+        <div class="mx-auto my-auto">
+            <h2 class="m-4 text-gray-200 text-2xl font-medium text-center">{{trailer.titulo}}</h2>
+            <div class="h-64 w-96" style="width: 500px;">
+                <a href="{{trailer.video}}" target="_blank">
+                    <img src="{{ trailer.thumb.url }}" class="object-cover w-full h-full" alt="">
+                </a>
             </div>
         </div>
         {% endfor %}
-    </div>
+    </section>
+    
 
     <section class='bg-stone-900 flex justify-center py-10' style="padding-bottom: 0px;">
         <div class="p-4 w-6/12 relative ">
