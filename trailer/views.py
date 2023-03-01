@@ -1,18 +1,28 @@
 from django.shortcuts import render, redirect, reverse
-from .models import Filme, Trailer
-from django.views.generic import TemplateView, DetailView, ListView, FormView
-from .forms import CriarContaForm
+from .models import Filme, Trailer, Usuario
+from django.views.generic import TemplateView, DetailView, ListView, FormView, UpdateView
+from .forms import CriarContaForm, HomePageForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class HomePage(TemplateView):
+class HomePage(FormView):
     template_name = 'trailer/homepage.html'
+    form_class = HomePageForm
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect('filme:home_filmes')
         else:
             return super().get(request, *args, **kwargs)
+        
+    def get_success_url(self):
+        email = self.request.POST.get("email")
+        usuarios = Usuario.objects.filter(email=email)
+        if usuarios:
+            return reverse('filme:login')
+        else:
+            return reverse('filme:criar_conta')
+        
     
 class HomeFilmes(LoginRequiredMixin, ListView):
     template_name = 'trailer/home_filmes.html'
@@ -62,9 +72,15 @@ class PesquisaFilme(LoginRequiredMixin, ListView):
             return None
     
 
-class PaginaPerfil(LoginRequiredMixin, TemplateView):
+class PaginaPerfil(LoginRequiredMixin, UpdateView):
     template_name = 'trailer/perfil.html'
     context_object_name = 'perfil'
+    
+    model = Usuario
+    fields = ['first_name', 'last_name', 'email']
+    
+    def get_success_url(self):
+        return reverse('filme:home_filmes')
     
     
 
